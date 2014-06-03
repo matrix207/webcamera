@@ -1,0 +1,33 @@
+1. compile
+	1). make 
+	2). gcc -o camera camera.c
+
+2. Use
+	1). Start server
+		./server -p 8088
+
+	2). Browser visit
+		http://localhost:8088/issue
+		http://localhost:8088/diskfree
+		http://localhost:8088/process
+		http://localhost:8088/time
+
+3. cgi modules
+
+	1). diskfree
+
+	2). issue
+
+	3). process 
+
+	4). time
+
+	5). camera 
+		camera capture a image every 5 frames, and the output file is like 
+		output.jpg and out_*.jpg.if want to capture one 
+		1). Capture only one image: ./camera -j -f 5, output file is output.jpg
+		2). Capture many images: ./camera -j -f 100, it will capture 100/5=20 
+			images, the generating files will look as out_0.jpg,...,out_19.jpg
+
+4. Todo
+	1). implement http://localhost:8088/camera
