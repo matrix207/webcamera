@@ -6,6 +6,8 @@
 
 ### Configuration.  ####################################################
 
+# add compile flags
+CFLAGS     += -Wall -g
 # C source files for the server.
 SOURCES		= server.c module.c common.c main.c
 # Object files corresponding to source files.
@@ -18,11 +20,11 @@ MODULES		= diskfree.so issue.so processes.so time.so
 .PHONY:         all clean
 
 # Default target: build everything.
-all:            server $(MODULES)
+all:            server $(MODULES) webcamera.so
 
 # Clean up build products.
 clean:
-	rm -f $(OBJECTS) $(MODULES) server
+	rm -f $(OBJECTS) $(MODULES) server webcamera.so camera.o
 
 # The main server program.  Link with -Wl,-export-dyanamic so
 # dynamically loaded modules can bind symbols in the program.  Link in
@@ -39,3 +41,7 @@ $(OBJECTS):     server.h
 $(MODULES): \
 %.so:           %.c server.h
 	$(CC) $(CFLAGS) -fPIC -shared -o $@ $<
+
+webcamera.so: webcamera.c camera.o server.h
+	$(CC) $(CFLAGS) -fPIC -shared -o $@ $< camera.o
+

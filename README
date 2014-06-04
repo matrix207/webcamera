@@ -30,4 +30,4 @@
 			images, the generating files will look as out_0.jpg,...,out_19.jpg
 
 4. Todo
-	1). implement http://localhost:8088/camera
+	1). implement http://localhost:8088/webcamera

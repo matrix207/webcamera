@@ -1,6 +1,6 @@
 /***********************************************************************
- * Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
- * Copyright (C) 2001 by New Riders Publishing                          *
+ * web camera module                                                    *
+ * Copyright (C) 2014 by Dennis                                         *
  * See COPYRIGHT for license information.                               *
  ***********************************************************************/
 
@@ -20,9 +20,11 @@ static char* page_template =
 " </head>\n"
 " <body>\n"
 "  <p>The current time is %s.</p>\n"
-"  <img src=\"test.jpg\" alt=\"dennis test\">"
+"  <img src=\"output.jpg\" alt=\"dennis test\">"
 " </body>\n"
 "</html>\n";
+
+extern int camera_capture (const char *img_name, int frame_num);
 
 void module_generate (int fd)
 {
@@ -30,6 +32,9 @@ void module_generate (int fd)
 	struct tm* ptm;
 	char time_string[40];
 	FILE* fp;
+
+	/* capture image */
+	camera_capture("output.jpg", 5);
 
 	/* Obtain the time of day, and convert it to a tm struct.  */
 	gettimeofday (&tv, NULL);

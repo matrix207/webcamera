@@ -950,7 +950,13 @@ long_options [] = {
 	{ 0, 0, 0, 0 },
 };
 
+#define USE_AS_MODULE
+
+#if defined(USE_AS_MODULE)
+int camera_capture (const char *img_name, int frame_num) {
+#else
 int main (int argc, char ** argv) {
+#endif
 	signal(SIGINT, quit_handler);
 	signal(SIGTERM, quit_handler);
 	signal(SIGUSR1, pause_handler);
@@ -958,6 +964,11 @@ int main (int argc, char ** argv) {
 	dev_name = "/dev/video0";
 	G_osd_text[0] = 0;
 	G_jc.quality = 75;
+	#if defined(USE_AS_MODULE)
+	type = TYPE_JPEG;
+	default_name = img_name;
+	G_frames = frame_num;
+	#else
 	for (;;) {
 		int index;
 		int c;
@@ -1009,6 +1020,7 @@ int main (int argc, char ** argv) {
 				exit (EXIT_FAILURE);
 		}
 	}
+	#endif
 	out_name = out_name ? out_name : default_name;
 
 	if (strcmp(out_name, "-") == 0)
