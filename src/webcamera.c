@@ -24,7 +24,7 @@ static char* page_template =
 " </body>\n"
 "</html>\n";
 
-extern int camera_capture (const char *img_name, int frame_num);
+extern int camera_capture (char *img_name, int frame_num);
 
 void module_generate (int fd)
 {

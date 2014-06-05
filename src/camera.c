@@ -80,16 +80,16 @@ static FILE *G_fvout = NULL;
 static int G_size = 0; // full size
 static int G_width = 0, G_height = 0;
 static char G_osd_text[80]; // aka caption aka overlay
-static int G_osd_on = 0; // aka caption aka overlay
+//static int G_osd_on = 0; // aka caption aka overlay
 static char *default_name = "output.mpg";
 static char *out_name = NULL;
 static int G_aud_cap = 0;
 static int G_br = -1; // video bitrate
 static int G_abr= -1; // audio bitrate
 static struct v4l2_jpegcompression G_jc;	/* jpeg compression */
-static int G_svideo = 0;
-static int G_ainput = -1;
-static int G_agc = -1;
+//static int G_svideo = 0;
+//static int G_ainput = -1;
+//static int G_agc = -1;
 static int G_ach = -1; // audio channels -1=default, 0=stereo, 3=mono
 static int G_pal = 0;
 static int G_framerate = 30;
@@ -166,7 +166,7 @@ static off_t sync_and_drop_write_cache(int fd, off_t pos) {
 
 
 static void process_image (const void *p, int len, unsigned int seq) {
-	static int i = 0;
+	//static int i = 0;
 	static int j = 0;
 	char fname[260];
 	static unsigned int next_seq = 0;
@@ -175,7 +175,8 @@ static void process_image (const void *p, int len, unsigned int seq) {
 	if (type == TYPE_JPEG) {
 		/* capture every 5 frames */
 		if (j % 5 == 1) {
-			sprintf(fname, "out_%d.jpg",i++);
+			//sprintf(fname, "out_%d.jpg",i++);
+			sprintf(fname, "%s", out_name);
 
 			fout = fopen(fname, "w+");
 			if (fout == NULL) {
@@ -211,7 +212,7 @@ static void process_image (const void *p, int len, unsigned int seq) {
 	}
 	/* print . if sequence ok, ! if frames were lost */
 	if (seq != next_seq) {
-		int n = (seq - next_seq) / G_decimate;
+		//int n = (seq - next_seq) / G_decimate;
 		// print number of frames missed 1-9,A-Z
 		//fputc(n + (n < 10 ? '0' : 'A'-10), stderr);
 		G_dropped++;
@@ -228,8 +229,6 @@ static void process_image (const void *p, int len, unsigned int seq) {
 
 static int read_frame	(void) {
 	struct v4l2_buffer buf;
-	unsigned int i;
-
 	switch (io) {
 		case IO_METHOD_READ:
 		case IO_METHOD_USERPTR:
@@ -847,6 +846,7 @@ static void cleanup(void) {
 
 }
 
+/*
 static void usage (FILE * fp, int argc, char ** argv) {
 	fprintf (fp,
 			"Usage: %s [options]\n\n"
@@ -902,6 +902,7 @@ static void usage (FILE * fp, int argc, char ** argv) {
 			"",
 		argv[0]);
 }
+*/
 
 static const char short_options [] = "d:hMREjJ1248mztTnxyupvo:s:a:w:b:c:q:i:f:r:g:I:G:U:N:D:OSP:L:CB5";
 
@@ -953,7 +954,7 @@ long_options [] = {
 #define USE_AS_MODULE
 
 #if defined(USE_AS_MODULE)
-int camera_capture (const char *img_name, int frame_num) {
+int camera_capture (char *img_name, int frame_num) {
 #else
 int main (int argc, char ** argv) {
 #endif
